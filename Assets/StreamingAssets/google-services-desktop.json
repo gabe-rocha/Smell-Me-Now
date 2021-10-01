@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "174980166641",
+    "firebase_url": "https://smell-me-now-default-rtdb.firebaseio.com",
+    "project_id": "smell-me-now",
+    "storage_bucket": "smell-me-now.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174980166641:android:4c159b68098298b768ca50",
+        "android_client_info": {
+          "package_name": "com.TippingToast.SmellMeNow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174980166641-ogoalrakoferq9crlp7gun2pue66lilt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJGidq-50yhsz9P_jLq8GFNCOlW9p-jyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174980166641-ogoalrakoferq9crlp7gun2pue66lilt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

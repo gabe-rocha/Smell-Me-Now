@@ -17,7 +17,7 @@ namespace Google.Maps.Scripts {
     /// When woken up by Unity, get the device's country code, if available. Do this once at the
     /// start, instead of in <see cref="GetCountry"/>, because native calls can be expensive on some
     /// platforms.
-    /// </summary>
+    /// </summary> 
     public void Awake() {
 #if UNITY_EDITOR
 
@@ -26,16 +26,16 @@ namespace Google.Maps.Scripts {
       CountryCode = null;
 #elif UNITY_ANDROID
       try {
-        using (var localeClass = new AndroidJavaClass("java.util.Locale")) {
-          using (var defaultLocale = localeClass.CallStatic<AndroidJavaObject>("getDefault")) {
+        using(var localeClass = new AndroidJavaClass("java.util.Locale")) {
+          using(var defaultLocale = localeClass.CallStatic<AndroidJavaObject>("getDefault")) {
             CountryCode = defaultLocale.Call<string>("getCountry");
           }
         }
       } catch (System.Exception e) {
         Debug.LogWarningFormat("<color=red><b>[Maps SDK]</b></color> DeviceCountryError: " +
-            "Couldn't get device country: {0}\nSee https://developers.google.com/maps/" +
-            "documentation/gaming/support/error_codes#device-country-error for more information.",
-            e);
+          "Couldn't get device country: {0}\nSee https://developers.google.com/maps/" +
+          "documentation/gaming/support/error_codes#device-country-error for more information.",
+          e);
       }
 #elif UNITY_IOS
       CountryCode = MuskGetLocaleRegion();

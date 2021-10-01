@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Google.Maps.Examples.Shared;
+using Google.Maps.Util;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,7 +15,7 @@ namespace Google.Maps.Examples {
   /// </summary>
   public class DynamicMapsUpdater : MonoBehaviour {
     [Serializable]
-    public class MapRegionUnloadedOutsideCircleEvent : UnityEvent<Vector3, float> {}
+    public class MapRegionUnloadedOutsideCircleEvent : UnityEvent<Vector3, float> { }
 
     /// <summary>
     /// Reference to the base map loader (which knows about MapsService).
@@ -24,12 +25,12 @@ namespace Google.Maps.Examples {
     public BaseMapLoader BaseMapLoader;
 
     [Tooltip(
-        "The ground plane. We keep this centered underneath Camera.main, so as we move around " +
-        "the game world the ground plane stays always underneath us. As such the Material " +
-        "applied to this ground plane should either be untextured, or textured using worldspace " +
-        "coordinates (as opposed to local uv coordinates), so that we cannot actually see the " +
-        "ground plane moving around the world, creating the illusion that there is always ground " +
-        "beneath us.")]
+      "The ground plane. We keep this centered underneath Camera.main, so as we move around " +
+      "the game world the ground plane stays always underneath us. As such the Material " +
+      "applied to this ground plane should either be untextured, or textured using worldspace " +
+      "coordinates (as opposed to local uv coordinates), so that we cannot actually see the " +
+      "ground plane moving around the world, creating the illusion that there is always ground " +
+      "beneath us.")]
     public GameObject Ground;
 
     [Tooltip("Load the map whenever the camera moves more than this distance.")]
@@ -83,21 +84,22 @@ namespace Google.Maps.Examples {
     void Awake() {
       // Verify all required parameters are defined and correctly setup, skipping any further setup
       // if any parameter is missing or invalid.
-      if (!VerifyParameters()) {
+      if(!VerifyParameters()) {
         // Disable this script to prevent error spamming (where Update will producing one or more
         // errors every frame because one or more parameters are undefined).
         enabled = false;
       }
 
       // Get the required base map loader
-      if (BaseMapLoader == null) {
+      if(BaseMapLoader == null) {
         Debug.LogError(ExampleErrors.MissingParameter(
-            this, BaseMapLoader, "Base Map Loader", "is required for this script to work."));
+          this, BaseMapLoader, "Base Map Loader", "is required for this script to work."));
       }
     }
 
     void Start() {
       StartCoroutines();
+
     }
 
     /// <summary>
@@ -110,14 +112,14 @@ namespace Google.Maps.Examples {
       float distanceSqr = (cameraPosition - LastCameraPosition).sqrMagnitude;
       float angle = Quaternion.Angle(cameraRotation, LastCameraRotation);
 
-      if (distanceSqr > (CameraMoveDistance * CameraMoveDistance) ||
-          angle > CameraMoveAngle) {
+      if(distanceSqr > (CameraMoveDistance * CameraMoveDistance) ||
+        angle > CameraMoveAngle) {
         NeedsLoading = true;
       }
 
-      if (NeedsLoading) {
+      if(NeedsLoading) {
         Ground.transform.position = new Vector3(cameraPosition.x, 0f, cameraPosition.z);
-        if (BaseMapLoader != null) {
+        if(BaseMapLoader != null) {
           BaseMapLoader.LoadMap();
         }
 
@@ -139,15 +141,15 @@ namespace Google.Maps.Examples {
     /// <summary>Periodically remove unneeded areas of the map.</summary>
     private IEnumerator UnloadUnseen() {
       while (true) {
-        if (BaseMapLoader != null && BaseMapLoader.IsInitialized && NeedsUnloading) {
+        if(BaseMapLoader != null && BaseMapLoader.IsInitialized && NeedsUnloading) {
           // Unload map regions that are not in viewport, and are outside a radius around the
           // camera. This is to avoid unloading geometry that may be reloaded again very shortly (as
           // it is right on the edge of the view).
           BaseMapLoader.MapsService.MakeMapLoadRegion()
-              .AddCircle(Camera.main.transform.position, BaseMapLoader.MaxDistance)
-              .UnloadOutside();
+            .AddCircle(Camera.main.transform.position, BaseMapLoader.MaxDistance)
+            .UnloadOutside();
 
-          if (UnloadedEvent != null)
+          if(UnloadedEvent != null)
             UnloadedEvent.Invoke(Camera.main.transform.position, BaseMapLoader.MaxDistance);
 
           // Reset unload flag to prevent unnecessary calls each interval.
@@ -165,7 +167,7 @@ namespace Google.Maps.Examples {
     private bool VerifyParameters() {
       // TODO(b/149056787): Standardize parameter verification across scripts.
       // Verify that a Ground plane has been given.
-      if (Ground == null) {
+      if(Ground == null) {
         Debug.LogError(ExampleErrors.MissingParameter(this, Ground, "Ground"));
 
         return false;
@@ -173,7 +175,7 @@ namespace Google.Maps.Examples {
 
       // Verify that there is a Camera.main in the scene (i.e. a Camera that is tagged:
       // "MainCamera").
-      if (Camera.main == null) {
+      if(Camera.main == null) {
         Debug.LogError(ExampleErrors.NullMainCamera(this));
 
         return false;
@@ -187,7 +189,7 @@ namespace Google.Maps.Examples {
     /// Handle Unity OnDisable event.
     /// </summary>
     void OnDisable() {
-      if (UnloadUnseenCoroutine != null) {
+      if(UnloadUnseenCoroutine != null) {
         StopCoroutine(UnloadUnseenCoroutine);
         UnloadUnseenCoroutine = null;
         RestartCoroutinesOnEnable = true;
@@ -198,7 +200,7 @@ namespace Google.Maps.Examples {
     /// Handle Unity OnEnable event.
     /// </summary>
     void OnEnable() {
-      if (RestartCoroutinesOnEnable) {
+      if(RestartCoroutinesOnEnable) {
         StartCoroutines();
         RestartCoroutinesOnEnable = false;
       }
