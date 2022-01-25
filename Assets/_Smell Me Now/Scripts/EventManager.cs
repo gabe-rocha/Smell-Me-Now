@@ -22,8 +22,27 @@ public class EventManager : MonoBehaviour {
         LocationServiceFailed,
         LocationServiceInitialized,
         ButtonFartPressed,
+        ButtonRadiusPressed,
+        ButtonNumBeansNormalPressed, //open inventory
+        ButtonNumBeansCurrencyPressed, //opens store
+        ButtonOpenInventoryPressed,
+        ButtonCloseInventoryPressed,
+        ButtonOpenSettingsPressed,
+        ButtonCloseSettingsPressed,
+        ButtonOpenFriendListPressed,
+        ButtonCloseFriendListPressed,
+        ButtonOpenStorePressed,
+        ButtonCloseStorePressed,
+        ButtonOpenLeaderboardsPressed,
+        ButtonCloseLeaderboardsPressed,
+        ButtonOpenAchievementsPressed,
+        ButtonCloseAchievementsPressed,
+        ButtonRightMenuPressed,
         FartsListRefreshed,
         FartDataSentToFirebase,
+        InventoryContentsChanged,
+        ButtonInventoryButtonPressed,
+        ButtonUseInventoryItemPressed
     }
 
     private Dictionary<EventManager.Events, UnityEvent> simpleEventDictionary = new Dictionary<EventManager.Events, UnityEvent>();

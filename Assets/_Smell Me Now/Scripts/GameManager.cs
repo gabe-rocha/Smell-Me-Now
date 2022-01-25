@@ -54,4 +54,16 @@ public class GameManager : MonoBehaviour {
         firebaseController.SendFartDataToFirebase(fartData);
     }
 
+    internal int GetCurrentHigherRadiusCost()
+    {
+        return PlayerPrefs.GetInt("CurrentHigherRadiusCost", Data.defaultBeansRadiusCost);
+    }
+
+    internal void SetCurrentHigherRadiusCost(int newValue)
+    {
+        if(newValue > Data.maxBeansRadiusCost){
+            newValue = Data.maxBeansRadiusCost;
+        }
+        PlayerPrefs.SetInt("CurrentHigherRadiusCost", newValue);
+    }
 }
